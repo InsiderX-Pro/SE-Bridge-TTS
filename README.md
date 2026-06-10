@@ -12,6 +12,8 @@ The site is a plain static GitHub Pages page served from the repository root.
 
 - Local entry: `index.html`
 - GitHub Pages URL: `https://piedpiperg.github.io/SE-Bridge-TTS/`
+- GitHub repository: `https://github.com/piedpiperG/SE-Bridge-TTS`
+- Hugging Face weights: `https://huggingface.co/isabeth/SE-Bridge-TTS`
 - Paper PDF: `paper/MultiLanTTS_camera_v0.1.pdf`
 - Demo metadata: `assets/data/demo-data.json`
 
@@ -23,6 +25,14 @@ The site is a plain static GitHub Pages page served from the repository root.
 - `assets/figures/`: DGSA and TDSC method diagrams.
 - `paper/`: camera-ready paper PDF.
 - `tests/`: lightweight static-site checks for required sections and asset references.
+
+## Public Weights
+
+The selected Thai and Lao TTS checkpoints are published as a Hugging Face model repository:
+
+https://huggingface.co/isabeth/SE-Bridge-TTS
+
+The Hugging Face release is a sanitized public package containing only the selected release checkpoints and minimal public metadata.
 
 ## Citation
 

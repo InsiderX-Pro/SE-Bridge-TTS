@@ -79,3 +79,19 @@ def test_index_contains_academic_project_sections():
 
     assert "assets/data/demo-data.json" in html
     assert "Code coming soon" in html
+
+
+def test_public_pages_are_cross_linked():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    expected_urls = [
+        "https://piedpiperg.github.io/SE-Bridge-TTS/",
+        "https://github.com/piedpiperG/SE-Bridge-TTS",
+        "https://huggingface.co/isabeth/SE-Bridge-TTS",
+    ]
+
+    assert expected_urls[1] in html
+    assert expected_urls[2] in html
+    for url in expected_urls:
+        assert url in readme
