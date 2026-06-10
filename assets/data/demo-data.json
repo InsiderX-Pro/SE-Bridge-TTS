@@ -1,0 +1,342 @@
+{
+  "paper": {
+    "title": "Bridging the Stability-Expressivity Gap: Synthetic Data Scaling and Preference Alignment for Low-Resource Spoken Language Models",
+    "shortTitle": "SE-Bridge-TTS",
+    "venue": "ICML 2026",
+    "authors": [
+      "Yizhong Geng",
+      "Yanliang Li",
+      "Jinghan Yang",
+      "Tianhan Jiang",
+      "Boxun An",
+      "Ya Li",
+      "Xiaoyu Shen"
+    ],
+    "paperUrl": "paper/MultiLanTTS_camera_v0.1.pdf",
+    "codeUrl": "https://github.com/piedpiperG/SE-Bridge-TTS"
+  },
+  "figures": [
+    {
+      "id": "dgsa",
+      "title": "Disentanglement-Guided Self-Alignment",
+      "src": "assets/figures/dgsa.png",
+      "caption": "DGSA uses prosody-timbre separation in flow-matching SLMs to construct preference pairs that recover expressivity while preserving speaker identity."
+    },
+    {
+      "id": "tdsc",
+      "title": "Temperature-Driven Self-Critique",
+      "src": "assets/figures/tdsc.png",
+      "caption": "TDSC samples across conservative, balanced, and exploratory temperatures, then filters candidates to bootstrap low-resource synthesis without authentic anchors."
+    }
+  ],
+  "results": [
+    {
+      "label": "Thai standard TTS",
+      "metric": "NMOS",
+      "value": "4.51",
+      "note": "DGSA achieves the strongest naturalness score among tested systems."
+    },
+    {
+      "label": "Lao standard TTS",
+      "metric": "WER / NMOS",
+      "value": "29.8 / 4.53",
+      "note": "TDSC improves both intelligibility and naturalness in a pure-synthetic setting."
+    },
+    {
+      "label": "Thai zero-shot cloning",
+      "metric": "SIM / SMOS",
+      "value": "0.84 / 4.51",
+      "note": "The model surpasses ElevenLabs-v3 on speaker similarity and perceived identity."
+    },
+    {
+      "label": "Lao zero-shot cloning",
+      "metric": "SIM / SMOS",
+      "value": "0.81 / 4.32",
+      "note": "The first demonstrated zero-shot voice cloning capability for Lao in this setup."
+    }
+  ],
+  "sections": [
+    {
+      "id": "benchmarks",
+      "title": "Competitive Benchmarks",
+      "kicker": "Thai and Lao TTS",
+      "description": "Representative standard TTS comparisons against commercial and open-source systems.",
+      "groups": [
+        {
+          "title": "Thai sample",
+          "summary": "Compare DGSA with commercial and open-source Thai systems on the same text.",
+          "samples": [
+            {
+              "text": "Thai benchmark sample 1",
+              "audios": [
+                {
+                  "label": "Ours (DGSA)",
+                  "src": "assets/audio/benchmarks/thai/ours-dgsa-sample1.wav",
+                  "tag": "ours"
+                },
+                {
+                  "label": "ElevenLabs-v3",
+                  "src": "assets/audio/benchmarks/thai/elevenlabs-sample1.mp3",
+                  "tag": "commercial"
+                },
+                {
+                  "label": "Microsoft Azure",
+                  "src": "assets/audio/benchmarks/thai/azure-sample1.wav",
+                  "tag": "commercial"
+                },
+                {
+                  "label": "MMS-TTS",
+                  "src": "assets/audio/benchmarks/thai/mms-sample1.wav",
+                  "tag": "open-source"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Lao sample",
+          "summary": "Compare TDSC with Lao-capable systems on the same text.",
+          "samples": [
+            {
+              "text": "Lao benchmark sample 1",
+              "audios": [
+                {
+                  "label": "Ours (TDSC)",
+                  "src": "assets/audio/benchmarks/lao/ours-tdsc-sample1.wav",
+                  "tag": "ours"
+                },
+                {
+                  "label": "Google",
+                  "src": "assets/audio/benchmarks/lao/google-sample1.mp3",
+                  "tag": "commercial"
+                },
+                {
+                  "label": "Microsoft Azure",
+                  "src": "assets/audio/benchmarks/lao/azure-sample1.wav",
+                  "tag": "commercial"
+                },
+                {
+                  "label": "MMS-TTS",
+                  "src": "assets/audio/benchmarks/lao/mms-sample1.wav",
+                  "tag": "open-source"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cloning",
+      "title": "Zero-Shot Voice Cloning",
+      "kicker": "Speaker transfer",
+      "description": "Short reference prompts condition the model to synthesize unseen voices in Thai and Lao.",
+      "groups": [
+        {
+          "title": "Thai cloning",
+          "summary": "Two target speakers illustrate cross-lingual identity transfer.",
+          "samples": [
+            {
+              "text": "Chinese reference voice to Thai target speech",
+              "audios": [
+                {
+                  "label": "Reference: chouxiang",
+                  "src": "assets/audio/cloning/thai/reference-chouxiang.wav",
+                  "tag": "reference"
+                },
+                {
+                  "label": "Ours",
+                  "src": "assets/audio/cloning/thai/ours-chouxiang.wav",
+                  "tag": "ours"
+                },
+                {
+                  "label": "ElevenLabs-v3",
+                  "src": "assets/audio/cloning/thai/elevenlabs-chouxiang.mp3",
+                  "tag": "commercial"
+                }
+              ]
+            },
+            {
+              "text": "Native Thai reference voice to Thai target speech",
+              "audios": [
+                {
+                  "label": "Reference: th_9804",
+                  "src": "assets/audio/cloning/thai/reference-th-9804.wav",
+                  "tag": "reference"
+                },
+                {
+                  "label": "Ours",
+                  "src": "assets/audio/cloning/thai/ours-th-9804.wav",
+                  "tag": "ours"
+                },
+                {
+                  "label": "ElevenLabs-v3",
+                  "src": "assets/audio/cloning/thai/elevenlabs-th-9804.mp3",
+                  "tag": "commercial"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Lao cloning",
+          "summary": "The Lao examples highlight a setting where other zero-shot systems are not available.",
+          "samples": [
+            {
+              "text": "Lao reference voice to Lao target speech",
+              "audios": [
+                {
+                  "label": "Reference: Common Voice Lao",
+                  "src": "assets/audio/cloning/lao/reference-common-voice-lo.wav",
+                  "tag": "reference"
+                },
+                {
+                  "label": "Ours",
+                  "src": "assets/audio/cloning/lao/ours-common-voice-lo.wav",
+                  "tag": "ours"
+                }
+              ]
+            },
+            {
+              "text": "Chinese reference voice to Lao target speech",
+              "audios": [
+                {
+                  "label": "Reference: taiyi",
+                  "src": "assets/audio/cloning/lao/reference-taiyi.wav",
+                  "tag": "reference"
+                },
+                {
+                  "label": "Ours",
+                  "src": "assets/audio/cloning/lao/ours-taiyi.wav",
+                  "tag": "ours"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "erosion",
+      "title": "Synthetic Erosion",
+      "kicker": "Stability vs. expressivity",
+      "description": "Increasing synthetic data improves phonetic stability, but beyond a critical ratio it suppresses prosodic diversity.",
+      "groups": [
+        {
+          "title": "Same speaker, same text, different synthetic ratios",
+          "summary": "Listen for the transition from unstable speech to the sweet spot, then to flatter high-synthetic speech.",
+          "samples": [
+            {
+              "text": "English reference conditioned Thai synthesis",
+              "audios": [
+                {
+                  "label": "Reference voice",
+                  "src": "assets/audio/erosion/en3/reference-en3.wav",
+                  "tag": "reference"
+                },
+                {
+                  "label": "alpha = 0",
+                  "src": "assets/audio/erosion/en3/alpha-0.wav",
+                  "tag": "low-alpha"
+                },
+                {
+                  "label": "alpha = 50",
+                  "src": "assets/audio/erosion/en3/alpha-50.wav",
+                  "tag": "sweet-spot"
+                },
+                {
+                  "label": "alpha = 80",
+                  "src": "assets/audio/erosion/en3/alpha-80.wav",
+                  "tag": "high-alpha"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dgsa",
+      "title": "DGSA Alignment",
+      "kicker": "Real-reference alignment",
+      "description": "DGSA uses identity-consistent preference pairs to recover expressivity without sacrificing stability.",
+      "groups": [
+        {
+          "title": "Ablation-style comparison",
+          "summary": "The same Thai text is synthesized by baseline and aligned systems.",
+          "samples": [
+            {
+              "text": "DGSA sample 1",
+              "audios": [
+                {
+                  "label": "Azure reference",
+                  "src": "assets/audio/dgsa/azure-sample1.wav",
+                  "tag": "reference"
+                },
+                {
+                  "label": "SFT",
+                  "src": "assets/audio/dgsa/sft-sample1.wav",
+                  "tag": "baseline"
+                },
+                {
+                  "label": "DPO",
+                  "src": "assets/audio/dgsa/dpo-sample1.wav",
+                  "tag": "baseline"
+                },
+                {
+                  "label": "DGSA",
+                  "src": "assets/audio/dgsa/dgsa-sample1.wav",
+                  "tag": "ours"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tdsc",
+      "title": "TDSC Self-Critique",
+      "kicker": "Pure-synthetic Lao",
+      "description": "TDSC explores multiple temperatures, filters candidates, and uses accepted samples as pseudo-real anchors.",
+      "groups": [
+        {
+          "title": "Self-improvement comparison",
+          "summary": "The same Lao text is synthesized by SFT, self-training, and TDSC.",
+          "samples": [
+            {
+              "text": "TDSC sample 1",
+              "audios": [
+                {
+                  "label": "Reference voice",
+                  "src": "assets/audio/tdsc/reference-sample1.wav",
+                  "tag": "reference"
+                },
+                {
+                  "label": "Azure",
+                  "src": "assets/audio/tdsc/azure-sample1.wav",
+                  "tag": "commercial"
+                },
+                {
+                  "label": "SFT",
+                  "src": "assets/audio/tdsc/sft-sample1.wav",
+                  "tag": "baseline"
+                },
+                {
+                  "label": "Self-train",
+                  "src": "assets/audio/tdsc/self-train-sample1.wav",
+                  "tag": "baseline"
+                },
+                {
+                  "label": "TDSC",
+                  "src": "assets/audio/tdsc/tdsc-sample1.wav",
+                  "tag": "ours"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
