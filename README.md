@@ -4,7 +4,7 @@ Project page for the ICML 2026 paper:
 
 **Bridging the Stability-Expressivity Gap: Synthetic Data Scaling and Preference Alignment for Low-Resource Spoken Language Models**
 
-This repository currently hosts the static paper website, selected figures, the paper PDF, and curated audio samples. Paper-related code will be added here later.
+This repository currently hosts the static paper website, selected figures, and curated audio samples. Paper-related code will be added here later.
 
 ## Project Page
 
@@ -14,7 +14,7 @@ The site is a plain static GitHub Pages page served from the repository root.
 - GitHub Pages URL: `https://piedpiperg.github.io/SE-Bridge-TTS/`
 - GitHub repository: `https://github.com/piedpiperG/SE-Bridge-TTS`
 - Hugging Face weights: `https://huggingface.co/isabeth/SE-Bridge-TTS`
-- Paper PDF: `paper/MultiLanTTS_camera_v0.1.pdf`
+- arXiv paper: `https://arxiv.org/abs/2605.27383`
 - Demo metadata: `assets/data/demo-data.json`
 
 ## Contents
@@ -23,7 +23,6 @@ The site is a plain static GitHub Pages page served from the repository root.
 - `assets/data/demo-data.json`: paper metadata, headline results, figure references, and audio sample lists.
 - `assets/audio/`: curated benchmark, cloning, synthetic erosion, DGSA, and TDSC audio examples.
 - `assets/figures/`: DGSA and TDSC method diagrams.
-- `paper/`: camera-ready paper PDF.
 - `tests/`: lightweight static-site checks for required sections and asset references.
 
 ## Public Weights
@@ -33,6 +32,7 @@ The selected Thai and Lao TTS checkpoints are published as a Hugging Face model 
 https://huggingface.co/isabeth/SE-Bridge-TTS
 
 The Hugging Face release is a sanitized public package containing only the selected release checkpoints and minimal public metadata.
+Its model card includes CosyVoice2-based inference instructions for loading the released Thai and Lao checkpoints.
 
 ## Citation
 

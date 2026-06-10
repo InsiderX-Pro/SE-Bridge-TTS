@@ -4,6 +4,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ARXIV_PAPER_URL = "https://arxiv.org/abs/2605.27383"
+LEGACY_LOCAL_PDF_URL = "paper/MultiLanTTS_camera_v0.1.pdf"
 
 
 class IdCollector(HTMLParser):
@@ -27,7 +29,6 @@ def test_required_pages_assets_and_data_exist():
         "assets/data/demo-data.json",
         "assets/figures/dgsa.png",
         "assets/figures/tdsc.png",
-        "paper/MultiLanTTS_camera_v0.1.pdf",
     ]
 
     missing = [path for path in expected_files if not (ROOT / path).exists()]
@@ -95,3 +96,16 @@ def test_public_pages_are_cross_linked():
     assert expected_urls[2] in html
     for url in expected_urls:
         assert url in readme
+
+
+def test_public_paper_links_use_arxiv_entry():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    demo_data_text = (ROOT / "assets/data/demo-data.json").read_text(encoding="utf-8")
+    demo_data = json.loads(demo_data_text)
+
+    assert demo_data["paper"]["paperUrl"] == ARXIV_PAPER_URL
+
+    for public_text in [html, readme, demo_data_text]:
+        assert ARXIV_PAPER_URL in public_text
+        assert LEGACY_LOCAL_PDF_URL not in public_text
