@@ -109,3 +109,21 @@ def test_public_paper_links_use_arxiv_entry():
     for public_text in [html, readme, demo_data_text]:
         assert ARXIV_PAPER_URL in public_text
         assert LEGACY_LOCAL_PDF_URL not in public_text
+
+
+def test_readme_presents_project_homepage_and_curated_demos():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    expected_snippets = [
+        "assets/figures/dgsa.png",
+        "https://img.shields.io/badge/Project_Page-Open_Demo",
+        "https://img.shields.io/badge/Paper-arXiv_2605.27383",
+        "https://img.shields.io/badge/Weights-Hugging_Face",
+        "assets/audio/benchmarks/thai/ours-dgsa-sample1.wav",
+        "assets/audio/benchmarks/lao/ours-tdsc-sample1.wav",
+        "assets/audio/erosion/en3/alpha-50.wav",
+        "assets/audio/tdsc/tdsc-sample1.wav",
+    ]
+
+    for snippet in expected_snippets:
+        assert snippet in readme
