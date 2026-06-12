@@ -122,9 +122,15 @@ def test_readme_presents_project_homepage_methods_results_and_weights():
         "https://img.shields.io/badge/Weights-Hugging_Face",
         "## Methods",
         "## Main Results",
+        "## Open FLEURS Evaluation",
         "## Use the Weights",
         "DGSA: **38.9 WER**, **4.51 NMOS**",
         "TDSC: **29.8 WER**, **4.53 NMOS**",
+        "Higgs Audio v3",
+        "OmniVoice",
+        "X-Voice Stage1",
+        "**83.4%**",
+        "evaluation/fleurs-lo-th-255pair/",
         "Other tested systems: not supported",
         "`thai_tts.pt`",
         "`lao_tts.pt`",
@@ -136,3 +142,33 @@ def test_readme_presents_project_homepage_methods_results_and_weights():
 
     for snippet in expected_snippets:
         assert snippet in readme
+
+
+def test_public_fleurs_evaluation_files_and_results_are_present():
+    eval_root = ROOT / "evaluation" / "fleurs-lo-th-255pair"
+    expected_files = [
+        "README.md",
+        "results.json",
+        "summary_same_language.csv",
+        "summary_cross_prompt_by_model.csv",
+        "summary_cross_prompt_by_direction.csv",
+        "scripts/render_results.py",
+    ]
+
+    missing = [path for path in expected_files if not (eval_root / path).exists()]
+    assert missing == []
+
+    results = json.loads((eval_root / "results.json").read_text(encoding="utf-8"))
+    assert results["metadata"]["benchmark"] == "FLEURS Lao/Thai 255-pair multilingual prompt benchmark"
+    assert results["metadata"]["metrics"]["accuracy"] == "1 - calibrated_cer_mean"
+
+    by_model = {row["model"]: row for row in results["cross_language_prompt_by_model"]}
+    se_bridge = by_model["SE-Bridge-TTS"]
+    assert se_bridge["ok"] == 1020
+    assert se_bridge["total"] == 1020
+    assert round(se_bridge["accuracy_percent"], 1) == 83.4
+    assert round(se_bridge["speaker_similarity_mean"], 3) == 0.593
+
+    xvoice = by_model["X-Voice Stage1"]
+    assert xvoice["ok"] == 510
+    assert xvoice["total"] == 1020

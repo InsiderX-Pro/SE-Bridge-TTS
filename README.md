@@ -60,6 +60,35 @@ Lower WER is better. Higher SIM, NMOS, and SMOS are better.
 
 Selected demos are available on the [project page](https://piedpiperg.github.io/SE-Bridge-TTS/#audio-demo), including [Thai standard TTS](assets/audio/benchmarks/thai/ours-dgsa-sample1.wav), [Lao standard TTS](assets/audio/benchmarks/lao/ours-tdsc-sample1.wav), [Thai cloning](assets/audio/cloning/thai/ours-th-9804.wav), and [Lao cloning](assets/audio/cloning/lao/ours-common-voice-lo.wav).
 
+## Open FLEURS Evaluation
+
+We also publish a reproducible FLEURS benchmark comparing the released
+SE-Bridge-TTS checkpoints with three recent open multilingual TTS
+systems: Higgs Audio v3, OmniVoice, and X-Voice Stage1. The evaluation
+uses 255 paired Lao/Thai target sentences and reference prompts from
+Lao, Thai, Chinese, and English. It tests whether a model can synthesize
+Lao/Thai speech while preserving the prompt speaker.
+
+Although SE-Bridge-TTS was developed before these newer open systems,
+it still reaches the best overall calibrated accuracy in the
+Chinese/English prompt -> Lao/Thai target setting, while remaining
+competitive on speaker similarity.
+
+Accuracy is `1 - calibrated CER`, where calibrated CER subtracts the ASR
+error measured on original FLEURS target audio. Higher is better for both
+accuracy and speaker similarity.
+
+| Model | Supported samples | Accuracy | Speaker similarity |
+| --- | ---: | ---: | ---: |
+| Higgs Audio v3 | 1020/1020 | 78.2% | 0.520 |
+| OmniVoice | 1020/1020 | 75.9% | 0.645 |
+| **SE-Bridge-TTS** | **1020/1020** | **83.4%** | **0.593** |
+| X-Voice Stage1 | 510/1020 | 53.7% | 0.361 |
+
+The full protocol, same-language prompt results, direction-level
+Chinese/English prompt results, and machine-readable tables are in
+[`evaluation/fleurs-lo-th-255pair`](evaluation/fleurs-lo-th-255pair/).
+
 ## Use the Weights
 
 The release checkpoints are hosted at:
@@ -86,6 +115,7 @@ This GitHub repository is intentionally lightweight: it hosts the project page, 
 | Project page and audio browser | https://piedpiperg.github.io/SE-Bridge-TTS/ |
 | Paper | https://arxiv.org/abs/2605.27383 |
 | Weights and inference notes | https://huggingface.co/isabeth/SE-Bridge-TTS |
+| FLEURS evaluation protocol and results | `evaluation/fleurs-lo-th-255pair/` |
 | Demo metadata | `assets/data/demo-data.json` |
 
 ## Citation
