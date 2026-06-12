@@ -63,6 +63,10 @@ Cross-language prompt setting:
 - Each direction has 255 samples, so models with full Lao/Thai support
   run 1,020 generated samples.
 
+The public detail table therefore reports six evaluated directions:
+Lao->Lao, Thai->Thai, Chinese->Lao, English->Lao, Chinese->Thai, and
+English->Thai.
+
 ## Deterministic Prompt Selection
 
 For same-language prompts, sort candidates by:
@@ -144,10 +148,12 @@ Only the public result tables in this repository report:
 - **Speaker similarity:** cosine similarity from
   `speechbrain/spkrec-ecapa-voxceleb`
 
-The calibrated CER is:
+Accuracy keeps the CER signal but makes it easier to read. The
+calibrated CER is:
 
 ```text
 calibrated_cer = max(0, generated_cer - ground_truth_cer)
+accuracy = 1 - calibrated_cer
 ```
 
 This subtracts the ASR error observed on the original FLEURS target
@@ -177,15 +183,29 @@ Generate the Markdown tables used for public reporting:
 python3 evaluation/fleurs-lo-th-255pair/scripts/render_results.py
 ```
 
+Best results are **bold**. Second-best results are <u>underlined</u>.
+
 The most compact comparison is the Chinese/English prompt -> Lao/Thai
 aggregate:
 
 | Model | Supported samples | Accuracy | Speaker similarity |
-| --- | ---: | ---: | ---: |
-| Higgs Audio v3 | 1020/1020 | 78.2% | 0.520 |
-| OmniVoice | 1020/1020 | 75.9% | 0.645 |
-| SE-Bridge-TTS | 1020/1020 | **83.4%** | 0.593 |
+| --- | --- | --- | --- |
+| Higgs Audio v3 | 1020/1020 | <u>78.2%</u> | 0.520 |
+| OmniVoice | 1020/1020 | 75.9% | **0.645** |
+| SE-Bridge-TTS | 1020/1020 | **83.4%** | <u>0.593</u> |
 | X-Voice Stage1 | 510/1020 | 53.7% | 0.361 |
+
+The detail table combines same-language Lao/Thai prompts with
+Chinese/English cross-language prompts. Each cell is `Cal. CER↓ / SIM↑`.
+
+| Target | Prompt | Higgs Audio v3 | OmniVoice | SE-Bridge-TTS | X-Voice Stage1 |
+| --- | --- | --- | --- | --- | --- |
+| Lao | Lao | <u>0.2330</u> / <u>0.699</u> | 0.3912 / **0.771** | **0.2170** / 0.694 | - / - |
+| Lao | English | <u>0.4491</u> / <u>0.492</u> | 0.4532 / **0.537** | **0.3408** / 0.459 | - / - |
+| Lao | Chinese | <u>0.3828</u> / 0.651 | 0.4306 / <u>0.711</u> | **0.2603** / **0.726** | - / - |
+| Thai | Thai | **0.0095** / 0.761 | <u>0.0210</u> / **0.794** | 0.0264 / 0.763 | 0.1879 / <u>0.774</u> |
+| Thai | English | 0.0310 / 0.263 | <u>0.0307</u> / **0.586** | **0.0268** / <u>0.452</u> | 0.8227 / -0.019 |
+| Thai | Chinese | **0.0089** / 0.674 | 0.0497 / **0.745** | <u>0.0356</u> / 0.736 | 0.1035 / <u>0.741</u> |
 
 Unsupported languages are shown in the coverage denominator but are not
 included in quality averages.

@@ -25,9 +25,11 @@ SE-Bridge-TTS is a low-resource Thai and Lao speech synthesis project. It studie
 
 ## What This Work Does
 
-- **Thai:** DGSA recovers expressive speech at high synthetic-data ratios while preserving intelligibility and speaker identity.
-- **Lao:** TDSC builds a pure-synthetic self-improvement loop, enabling Lao TTS and zero-shot voice cloning without authentic target-language recordings.
-- **Open release:** public checkpoints, audio demos, project page, paper, and a Hugging Face model card with inference guidance.
+| Capability | What it enables |
+| --- | --- |
+| Thai DGSA | Recovers expressive speech at high synthetic-data ratios while preserving intelligibility and speaker identity. |
+| Lao TDSC | Builds a pure-synthetic self-improvement loop for Lao TTS and zero-shot voice cloning without authentic target-language recordings. |
+| Open checkpoints | Provides public Thai and Lao CosyVoice2-compatible weights, audio demos, a project page, and Hugging Face inference guidance. |
 
 ## Methods
 
@@ -49,14 +51,15 @@ TDSC samples candidates across conservative-to-expressive temperatures, filters 
 
 ## Main Results
 
-Lower WER is better. Higher SIM, NMOS, and SMOS are better.
+Paper accuracy is reported as `Accuracy = 100 - WER`, so higher is
+better. Higher SIM, NMOS, and SMOS are also better.
 
-| Task | Language | SE-Bridge-TTS | Strong comparison |
+| Paper setting | SE-Bridge-TTS | Strong comparison | Takeaway |
 | --- | --- | --- | --- |
-| Standard TTS | Thai | DGSA: **38.9 WER**, **4.51 NMOS** | ElevenLabs-v3: 40.6 WER / 4.21 NMOS; Azure: 36.5 WER / 4.01 NMOS |
-| Standard TTS | Lao | TDSC: **29.8 WER**, **4.53 NMOS** | Gemini Flash: 34.2 WER / 4.12 NMOS; MMS-TTS: 44.8 WER / 3.52 NMOS |
-| Zero-shot voice cloning | Thai | DGSA: **38.9 WER**, **0.84 SIM**, **4.42 NMOS**, **4.51 SMOS** | ElevenLabs-v3: 42.3 WER / 0.78 SIM / 4.21 NMOS / 4.23 SMOS |
-| Zero-shot voice cloning | Lao | TDSC: **29.8 WER**, **0.81 SIM**, **3.94 NMOS**, **4.32 SMOS** | Other tested systems: not supported |
+| Thai standard TTS | **61.1% accuracy** (38.9 WER), **4.51 NMOS** | Azure: 63.5% accuracy (36.5 WER), 4.01 NMOS; ElevenLabs-v3: 59.4% accuracy, 4.21 NMOS | Comparable intelligibility with stronger naturalness. |
+| Lao standard TTS | **70.2% accuracy** (29.8 WER), **4.53 NMOS** | Gemini Flash: 65.8% accuracy, 4.12 NMOS; MMS-TTS: 55.2% accuracy, 3.52 NMOS | Best accuracy and naturalness among tested systems. |
+| Thai zero-shot cloning | **61.1% accuracy** (38.9 WER), **0.84 SIM**, **4.51 SMOS** | ElevenLabs-v3: 57.7% accuracy (42.3 WER), 0.78 SIM, 4.23 SMOS | Better intelligibility and speaker preservation. |
+| Lao zero-shot cloning | **70.2% accuracy** (29.8 WER), **0.81 SIM**, **4.32 SMOS** | Other tested systems: not supported | Public Lao voice cloning capability. |
 
 Selected demos are available on the [project page](https://piedpiperg.github.io/SE-Bridge-TTS/#audio-demo), including [Thai standard TTS](assets/audio/benchmarks/thai/ours-dgsa-sample1.wav), [Lao standard TTS](assets/audio/benchmarks/lao/ours-tdsc-sample1.wav), [Thai cloning](assets/audio/cloning/thai/ours-th-9804.wav), and [Lao cloning](assets/audio/cloning/lao/ours-common-voice-lo.wav).
 
@@ -74,19 +77,44 @@ it still reaches the best overall calibrated accuracy in the
 Chinese/English prompt -> Lao/Thai target setting, while remaining
 competitive on speaker similarity.
 
-Accuracy is `1 - calibrated CER`, where calibrated CER subtracts the ASR
-error measured on original FLEURS target audio. Higher is better for both
-accuracy and speaker similarity.
+Accuracy keeps the CER signal but makes it easier to read:
+
+```text
+calibrated CER = max(0, generated CER - ground-truth CER)
+Accuracy = 1 - calibrated CER
+```
+
+Ground-truth CER is the ASR error measured on original FLEURS target
+audio, so the metric discounts recognizer baseline errors and focuses on
+synthesis degradation. Higher is better for Accuracy and speaker
+similarity.
+
+Best results are **bold**. Second-best results are <u>underlined</u>.
 
 | Model | Supported samples | Accuracy | Speaker similarity |
-| --- | ---: | ---: | ---: |
-| Higgs Audio v3 | 1020/1020 | 78.2% | 0.520 |
-| OmniVoice | 1020/1020 | 75.9% | 0.645 |
-| **SE-Bridge-TTS** | **1020/1020** | **83.4%** | **0.593** |
+| --- | --- | --- | --- |
+| Higgs Audio v3 | 1020/1020 | <u>78.2%</u> | 0.520 |
+| OmniVoice | 1020/1020 | 75.9% | **0.645** |
+| SE-Bridge-TTS | 1020/1020 | **83.4%** | <u>0.593</u> |
 | X-Voice Stage1 | 510/1020 | 53.7% | 0.361 |
 
-The full protocol, same-language prompt results, direction-level
-Chinese/English prompt results, and machine-readable tables are in
+Each detail cell below is `Cal. CER↓ / SIM↑`.
+
+| Target | Prompt | Higgs Audio v3 | OmniVoice | SE-Bridge-TTS | X-Voice Stage1 |
+| --- | --- | --- | --- | --- | --- |
+| Lao | Lao | <u>0.2330</u> / <u>0.699</u> | 0.3912 / **0.771** | **0.2170** / 0.694 | - / - |
+| Lao | English | <u>0.4491</u> / <u>0.492</u> | 0.4532 / **0.537** | **0.3408** / 0.459 | - / - |
+| Lao | Chinese | <u>0.3828</u> / 0.651 | 0.4306 / <u>0.711</u> | **0.2603** / **0.726** | - / - |
+| Thai | Thai | **0.0095** / 0.761 | <u>0.0210</u> / **0.794** | 0.0264 / 0.763 | 0.1879 / <u>0.774</u> |
+| Thai | English | 0.0310 / 0.263 | <u>0.0307</u> / **0.586** | **0.0268** / <u>0.452</u> | 0.8227 / -0.019 |
+| Thai | Chinese | **0.0089** / 0.674 | 0.0497 / **0.745** | <u>0.0356</u> / 0.736 | 0.1035 / <u>0.741</u> |
+
+This public run covers same-language Lao/Thai prompts plus Chinese and
+English prompts to Lao/Thai targets. Unsupported Lao directions for
+X-Voice Stage1 are counted as coverage failures and excluded from
+quality averages.
+
+The full protocol, machine-readable results, and table renderer are in
 [`evaluation/fleurs-lo-th-255pair`](evaluation/fleurs-lo-th-255pair/).
 
 ## Use the Weights

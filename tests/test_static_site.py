@@ -124,14 +124,24 @@ def test_readme_presents_project_homepage_methods_results_and_weights():
         "## Main Results",
         "## Open FLEURS Evaluation",
         "## Use the Weights",
-        "DGSA: **38.9 WER**, **4.51 NMOS**",
-        "TDSC: **29.8 WER**, **4.53 NMOS**",
+        "Accuracy = 100 - WER",
+        "Thai standard TTS",
+        "Azure: 63.5% accuracy",
+        "Lao zero-shot cloning",
+        "Other tested systems: not supported",
+        "calibrated CER = max(0, generated CER - ground-truth CER)",
+        "Accuracy = 1 - calibrated CER",
         "Higgs Audio v3",
         "OmniVoice",
         "X-Voice Stage1",
+        "<u>78.2%</u>",
         "**83.4%**",
+        "Each detail cell below is `Cal. CER↓ / SIM↑`.",
+        "Lao | Chinese",
+        "**0.2603** / **0.726**",
+        "Thai | English",
+        "<u>0.0307</u> / **0.586**",
         "evaluation/fleurs-lo-th-255pair/",
-        "Other tested systems: not supported",
         "`thai_tts.pt`",
         "`lao_tts.pt`",
         "assets/audio/benchmarks/thai/ours-dgsa-sample1.wav",
@@ -172,3 +182,24 @@ def test_public_fleurs_evaluation_files_and_results_are_present():
     xvoice = by_model["X-Voice Stage1"]
     assert xvoice["ok"] == 510
     assert xvoice["total"] == 1020
+
+    same_by_model_language = {
+        (row["model"], row["language_id"]): row
+        for row in results["same_language_prompt_by_model_language"]
+    }
+    xvoice_lao = same_by_model_language[("X-Voice Stage1", "lo")]
+    assert xvoice_lao["ok"] == 0
+    assert xvoice_lao["total"] == 255
+    assert xvoice_lao["accuracy_percent"] is None
+
+    eval_readme = (eval_root / "README.md").read_text(encoding="utf-8")
+    expected_eval_snippets = [
+        "accuracy = 1 - calibrated_cer",
+        "Best results are **bold**. Second-best results are <u>underlined</u>.",
+        "| SE-Bridge-TTS | 1020/1020 | **83.4%** | <u>0.593</u> |",
+        "Each cell is `Cal. CER↓ / SIM↑`.",
+        "| Lao | Lao | <u>0.2330</u> / <u>0.699</u> |",
+        "| Thai | Chinese | **0.0089** / 0.674 |",
+    ]
+    for snippet in expected_eval_snippets:
+        assert snippet in eval_readme
