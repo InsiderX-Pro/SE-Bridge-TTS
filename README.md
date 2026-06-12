@@ -21,66 +21,72 @@
   </a>
 </p>
 
+SE-Bridge-TTS is a low-resource Thai and Lao speech synthesis project. It studies a practical failure mode in spoken language models: synthetic data improves pronunciation stability, but too much flat synthetic speech erodes prosody and speaker expressivity. The release provides public Thai and Lao CosyVoice2-compatible checkpoints on Hugging Face.
+
+## What This Work Does
+
+- **Thai:** DGSA recovers expressive speech at high synthetic-data ratios while preserving intelligibility and speaker identity.
+- **Lao:** TDSC builds a pure-synthetic self-improvement loop, enabling Lao TTS and zero-shot voice cloning without authentic target-language recordings.
+- **Open release:** public checkpoints, audio demos, project page, paper, and a Hugging Face model card with inference guidance.
+
+## Methods
+
+### DGSA: Disentanglement-Guided Self-Alignment
+
 <p align="center">
-  <img src="assets/figures/dgsa.png" alt="SE-Bridge-TTS DGSA method overview" width="860">
+  <img src="assets/figures/dgsa.png" alt="Disentanglement-Guided Self-Alignment method overview" width="860">
 </p>
 
-SE-Bridge-TTS studies a core trade-off in low-resource spoken language modeling: synthetic data improves phonetic stability, but excessive scaling can flatten prosody and speaker expressivity. The project introduces two self-alignment frameworks for expressive Thai and Lao speech synthesis:
+DGSA uses the prosody-timbre separation in flow-matching SLMs to build preference pairs that reward stable, expressive speech without collapsing speaker identity.
 
-- **DGSA**: disentanglement-guided self-alignment for Thai, using prosody-timbre separation to recover expressive speech while preserving stability.
-- **TDSC**: temperature-driven self-critique for Lao, using pure-synthetic candidates as pseudo-real anchors when authentic references are scarce.
+### TDSC: Temperature-Driven Self-Critique
+
+<p align="center">
+  <img src="assets/figures/tdsc.png" alt="Temperature-Driven Self-Critique method overview" width="860">
+</p>
+
+TDSC samples candidates across conservative-to-expressive temperatures, filters them with automatic quality checks, and iteratively improves low-resource synthesis when real target-language speech is unavailable.
+
+## Main Results
+
+Lower WER is better. Higher SIM, NMOS, and SMOS are better.
+
+| Task | Language | SE-Bridge-TTS | Strong comparison |
+| --- | --- | --- | --- |
+| Standard TTS | Thai | DGSA: **38.9 WER**, **4.51 NMOS** | ElevenLabs-v3: 40.6 WER / 4.21 NMOS; Azure: 36.5 WER / 4.01 NMOS |
+| Standard TTS | Lao | TDSC: **29.8 WER**, **4.53 NMOS** | Gemini Flash: 34.2 WER / 4.12 NMOS; MMS-TTS: 44.8 WER / 3.52 NMOS |
+| Zero-shot voice cloning | Thai | DGSA: **38.9 WER**, **0.84 SIM**, **4.42 NMOS**, **4.51 SMOS** | ElevenLabs-v3: 42.3 WER / 0.78 SIM / 4.21 NMOS / 4.23 SMOS |
+| Zero-shot voice cloning | Lao | TDSC: **29.8 WER**, **0.81 SIM**, **3.94 NMOS**, **4.32 SMOS** | Other tested systems: not supported |
+
+Selected demos are available on the [project page](https://piedpiperg.github.io/SE-Bridge-TTS/#audio-demo), including [Thai standard TTS](assets/audio/benchmarks/thai/ours-dgsa-sample1.wav), [Lao standard TTS](assets/audio/benchmarks/lao/ours-tdsc-sample1.wav), [Thai cloning](assets/audio/cloning/thai/ours-th-9804.wav), and [Lao cloning](assets/audio/cloning/lao/ours-common-voice-lo.wav).
+
+## Use the Weights
+
+The release checkpoints are hosted at:
+
+https://huggingface.co/isabeth/SE-Bridge-TTS
+
+For inference:
+
+1. Open the Hugging Face model card above.
+2. Download `thai_tts.pt` or `lao_tts.pt` from the model repository.
+3. Follow the CosyVoice2 loading example in the model card.
+
+| File | Language | Recommended use |
+| --- | --- | --- |
+| `thai_tts.pt` | Thai | CosyVoice2 zero-shot TTS and voice cloning |
+| `lao_tts.pt` | Lao | CosyVoice2 cross-lingual or zero-shot prompting |
+
+This GitHub repository is intentionally lightweight: it hosts the project page, audio demos, paper links, and release pointers; the runnable checkpoint package lives on Hugging Face.
 
 ## Links
 
 | Resource | Link |
 | --- | --- |
-| Project homepage and full audio browser | https://piedpiperg.github.io/SE-Bridge-TTS/ |
+| Project page and audio browser | https://piedpiperg.github.io/SE-Bridge-TTS/ |
 | Paper | https://arxiv.org/abs/2605.27383 |
-| Public Thai and Lao weights | https://huggingface.co/isabeth/SE-Bridge-TTS |
+| Weights and inference notes | https://huggingface.co/isabeth/SE-Bridge-TTS |
 | Demo metadata | `assets/data/demo-data.json` |
-
-## Result Snapshot
-
-| Setting | Metric | Result | Note |
-| --- | ---: | ---: | --- |
-| Thai standard TTS | NMOS | 4.51 | DGSA achieves the strongest naturalness score among tested systems. |
-| Lao standard TTS | WER / NMOS | 29.8 / 4.53 | TDSC improves intelligibility and naturalness in a pure-synthetic setting. |
-| Thai zero-shot cloning | SIM / SMOS | 0.84 / 4.51 | Higher speaker similarity than the compared commercial baseline. |
-| Lao cloning demo | SIM / SMOS | 0.81 / 4.32 | Public release checkpoint should be used with cross-lingual inference. |
-
-## Featured Audio Demos
-
-The full interactive demo browser is on the [project homepage](https://piedpiperg.github.io/SE-Bridge-TTS/#audio-demo). A few representative examples are linked below for quick inspection.
-
-| Demo | What to compare | Audio links |
-| --- | --- | --- |
-| Thai benchmark | DGSA against commercial and open-source systems on the same Thai text. | [Ours DGSA](assets/audio/benchmarks/thai/ours-dgsa-sample1.wav)<br>[ElevenLabs-v3](assets/audio/benchmarks/thai/elevenlabs-sample1.mp3)<br>[Azure](assets/audio/benchmarks/thai/azure-sample1.wav)<br>[MMS-TTS](assets/audio/benchmarks/thai/mms-sample1.wav) |
-| Lao benchmark | TDSC against Lao-capable commercial and open-source systems. | [Ours TDSC](assets/audio/benchmarks/lao/ours-tdsc-sample1.wav)<br>[Google](assets/audio/benchmarks/lao/google-sample1.mp3)<br>[Azure](assets/audio/benchmarks/lao/azure-sample1.wav)<br>[MMS-TTS](assets/audio/benchmarks/lao/mms-sample1.wav) |
-| Synthetic erosion | The sweet spot between unstable speech and over-smoothed high-synthetic speech. | [Reference](assets/audio/erosion/en3/reference-en3.wav)<br>[alpha = 0](assets/audio/erosion/en3/alpha-0.wav)<br>[alpha = 50](assets/audio/erosion/en3/alpha-50.wav)<br>[alpha = 80](assets/audio/erosion/en3/alpha-80.wav) |
-| DGSA alignment | Baseline alignment versus DGSA on the same Thai text. | [Azure reference](assets/audio/dgsa/azure-sample1.wav)<br>[SFT](assets/audio/dgsa/sft-sample1.wav)<br>[DPO](assets/audio/dgsa/dpo-sample1.wav)<br>[DGSA](assets/audio/dgsa/dgsa-sample1.wav) |
-| TDSC self-critique | Lao pure-synthetic self-improvement across SFT, self-training, and TDSC. | [Reference](assets/audio/tdsc/reference-sample1.wav)<br>[Azure](assets/audio/tdsc/azure-sample1.wav)<br>[SFT](assets/audio/tdsc/sft-sample1.wav)<br>[Self-train](assets/audio/tdsc/self-train-sample1.wav)<br>[TDSC](assets/audio/tdsc/tdsc-sample1.wav) |
-| Voice cloning | Reference-conditioned synthesis for unseen speakers. | [Thai reference](assets/audio/cloning/thai/reference-th-9804.wav)<br>[Thai ours](assets/audio/cloning/thai/ours-th-9804.wav)<br>[ElevenLabs-v3](assets/audio/cloning/thai/elevenlabs-th-9804.mp3)<br>[Lao reference](assets/audio/cloning/lao/reference-common-voice-lo.wav)<br>[Lao ours](assets/audio/cloning/lao/ours-common-voice-lo.wav) |
-
-## Public Weights
-
-The selected release checkpoints are hosted on Hugging Face:
-
-https://huggingface.co/isabeth/SE-Bridge-TTS
-
-| Checkpoint | Language | Recommended inference |
-| --- | --- | --- |
-| `thai_tts.pt` | Thai | Zero-shot inference with CosyVoice2. |
-| `lao_tts.pt` | Lao | Cross-lingual inference only with CosyVoice2. |
-
-The Hugging Face model card includes the current CosyVoice2 loading example. The release package is sanitized and intentionally omits internal server paths, private data paths, and per-stage checkpoint construction details.
-
-## Repository Layout
-
-- `index.html`: academic project homepage and selected audio demo browser.
-- `assets/data/demo-data.json`: paper metadata, headline results, figure references, and audio sample lists.
-- `assets/audio/`: curated benchmark, cloning, synthetic erosion, DGSA, and TDSC audio examples.
-- `assets/figures/`: DGSA and TDSC method diagrams.
-- `tests/`: lightweight static-site checks for required sections and asset references.
 
 ## Citation
 
@@ -92,7 +98,3 @@ The Hugging Face model card includes the current CosyVoice2 loading example. The
   year = {2026}
 }
 ```
-
-## Status
-
-Project code will be added here later.

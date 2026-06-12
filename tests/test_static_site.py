@@ -111,18 +111,27 @@ def test_public_paper_links_use_arxiv_entry():
         assert LEGACY_LOCAL_PDF_URL not in public_text
 
 
-def test_readme_presents_project_homepage_and_curated_demos():
+def test_readme_presents_project_homepage_methods_results_and_weights():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
     expected_snippets = [
         "assets/figures/dgsa.png",
+        "assets/figures/tdsc.png",
         "https://img.shields.io/badge/Project_Page-Open_Demo",
         "https://img.shields.io/badge/Paper-arXiv_2605.27383",
         "https://img.shields.io/badge/Weights-Hugging_Face",
+        "## Methods",
+        "## Main Results",
+        "## Use the Weights",
+        "DGSA: **38.9 WER**, **4.51 NMOS**",
+        "TDSC: **29.8 WER**, **4.53 NMOS**",
+        "Other tested systems: not supported",
+        "`thai_tts.pt`",
+        "`lao_tts.pt`",
         "assets/audio/benchmarks/thai/ours-dgsa-sample1.wav",
         "assets/audio/benchmarks/lao/ours-tdsc-sample1.wav",
-        "assets/audio/erosion/en3/alpha-50.wav",
-        "assets/audio/tdsc/tdsc-sample1.wav",
+        "assets/audio/cloning/thai/ours-th-9804.wav",
+        "assets/audio/cloning/lao/ours-common-voice-lo.wav",
     ]
 
     for snippet in expected_snippets:
