@@ -85,17 +85,24 @@ def test_index_contains_academic_project_sections():
 def test_public_pages_are_cross_linked():
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    demo_data_text = (ROOT / "assets/data/demo-data.json").read_text(encoding="utf-8")
+    demo_data = json.loads(demo_data_text)
 
     expected_urls = [
-        "https://piedpiperg.github.io/SE-Bridge-TTS/",
-        "https://github.com/piedpiperG/SE-Bridge-TTS",
+        "https://insiderx-pro.github.io/SE-Bridge-TTS/",
+        "https://github.com/InsiderX-Pro/SE-Bridge-TTS",
         "https://huggingface.co/isabeth/SE-Bridge-TTS",
     ]
 
     assert expected_urls[1] in html
     assert expected_urls[2] in html
+    assert demo_data["paper"]["codeUrl"] == expected_urls[1]
     for url in expected_urls:
         assert url in readme
+
+    for public_text in [html, readme, demo_data_text]:
+        assert "https://github.com/piedpiperG/SE-Bridge-TTS" not in public_text
+        assert "https://piedpiperg.github.io/SE-Bridge-TTS/" not in public_text
 
 
 def test_public_paper_links_use_arxiv_entry():

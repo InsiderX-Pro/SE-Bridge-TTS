@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://piedpiperg.github.io/SE-Bridge-TTS/">
+  <a href="https://insiderx-pro.github.io/SE-Bridge-TTS/">
     <img alt="Project page" src="https://img.shields.io/badge/Project_Page-Open_Demo-0f766e?style=for-the-badge">
   </a>
   <a href="https://arxiv.org/abs/2605.27383">
@@ -16,7 +16,7 @@
   <a href="https://huggingface.co/isabeth/SE-Bridge-TTS">
     <img alt="Hugging Face weights" src="https://img.shields.io/badge/Weights-Hugging_Face-f59e0b?style=for-the-badge">
   </a>
-  <a href="https://github.com/piedpiperG/SE-Bridge-TTS">
+  <a href="https://github.com/InsiderX-Pro/SE-Bridge-TTS">
     <img alt="GitHub repository" src="https://img.shields.io/badge/Code-GitHub-24292f?style=for-the-badge">
   </a>
 </p>
@@ -61,7 +61,7 @@ better. Higher SIM, NMOS, and SMOS are also better.
 | Thai zero-shot cloning | **61.1% accuracy** (38.9 WER), **0.84 SIM**, **4.51 SMOS** | ElevenLabs-v3: 57.7% accuracy (42.3 WER), 0.78 SIM, 4.23 SMOS | Better intelligibility and speaker preservation. |
 | Lao zero-shot cloning | **70.2% accuracy** (29.8 WER), **0.81 SIM**, **4.32 SMOS** | Other tested systems: not supported | Public Lao voice cloning capability. |
 
-Selected demos are available on the [project page](https://piedpiperg.github.io/SE-Bridge-TTS/#audio-demo), including [Thai standard TTS](assets/audio/benchmarks/thai/ours-dgsa-sample1.wav), [Lao standard TTS](assets/audio/benchmarks/lao/ours-tdsc-sample1.wav), [Thai cloning](assets/audio/cloning/thai/ours-th-9804.wav), and [Lao cloning](assets/audio/cloning/lao/ours-common-voice-lo.wav).
+Selected demos are available on the [project page](https://insiderx-pro.github.io/SE-Bridge-TTS/#audio-demo), including [Thai standard TTS](assets/audio/benchmarks/thai/ours-dgsa-sample1.wav), [Lao standard TTS](assets/audio/benchmarks/lao/ours-tdsc-sample1.wav), [Thai cloning](assets/audio/cloning/thai/ours-th-9804.wav), and [Lao cloning](assets/audio/cloning/lao/ours-common-voice-lo.wav).
 
 ## Open FLEURS Evaluation
 
@@ -140,7 +140,7 @@ This GitHub repository is intentionally lightweight: it hosts the project page, 
 
 | Resource | Link |
 | --- | --- |
-| Project page and audio browser | https://piedpiperg.github.io/SE-Bridge-TTS/ |
+| Project page and audio browser | https://insiderx-pro.github.io/SE-Bridge-TTS/ |
 | Paper | https://arxiv.org/abs/2605.27383 |
 | Weights and inference notes | https://huggingface.co/isabeth/SE-Bridge-TTS |
 | FLEURS evaluation protocol and results | `evaluation/fleurs-lo-th-255pair/` |
