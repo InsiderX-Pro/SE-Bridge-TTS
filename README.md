@@ -131,8 +131,8 @@ For inference:
 
 | File | Language | Recommended use |
 | --- | --- | --- |
-| `thai_tts.pt` | Thai | CosyVoice2 zero-shot TTS and voice cloning |
-| `lao_tts.pt` | Lao | CosyVoice2 cross-lingual or zero-shot prompting |
+| `thai_tts.pt` | Thai | CosyVoice2 cross-lingual inference by default; optional zero-shot use with caution |
+| `lao_tts.pt` | Lao | CosyVoice2 cross-lingual inference |
 
 This GitHub repository is intentionally lightweight: it hosts the project page, audio demos, paper links, and release pointers; the runnable checkpoint package lives on Hugging Face.
 
@@ -156,3 +156,13 @@ This GitHub repository is intentionally lightweight: it hosts the project page, 
   year = {2026}
 }
 ```
+
+## Acknowledgements
+
+Confucius4-TTS builds on the following open-source projects:
+
+- [FunAudioLLM/CosyVoice](https://github.com/FunAudioLLM/CosyVoice), which provides the CosyVoice2 toolkit and inference stack used by the released checkpoints.
+- [facebook/mms-tts](https://huggingface.co/facebook/mms-tts), a multilingual open-source TTS baseline included in the project demos.
+- [Higgs Audio v3](https://github.com/boson-ai/higgs-audio), [OmniVoice](https://github.com/k2-fsa/OmniVoice), and [X-Voice](https://github.com/sunnyxrxrx/X-Voice), recent open multilingual speech generation systems referenced in the public FLEURS evaluation.
+
+We thank the maintainers and contributors of these projects for making multilingual and low-resource speech synthesis research easier to reproduce, compare, and extend.
