@@ -1,10 +1,11 @@
-# SE-Bridge-TTS
+<h1 align="center">Bridging the Stability-Expressivity Gap</h1>
 
-<p align="center">
-  <strong>Bridging the Stability-Expressivity Gap</strong><br>
-  <span>Synthetic Data Scaling and Preference Alignment for Low-Resource Spoken Language Models</span><br>
-  <span>ICML 2026</span>
-</p>
+<h3 align="center">
+  Synthetic Data Scaling and Preference Alignment<br>
+  for Low-Resource Spoken Language Models
+</h3>
+
+<p align="center"><strong>SE-Bridge-TTS | ICML 2026</strong></p>
 
 <p align="center">
   <a href="https://insiderx-pro.github.io/SE-Bridge-TTS/">

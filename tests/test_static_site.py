@@ -124,6 +124,9 @@ def test_readme_presents_project_homepage_methods_results_and_weights():
     expected_snippets = [
         "assets/figures/dgsa.png",
         "assets/figures/tdsc.png",
+        '<h1 align="center">Bridging the Stability-Expressivity Gap</h1>',
+        "for Low-Resource Spoken Language Models",
+        "SE-Bridge-TTS | ICML 2026",
         "https://img.shields.io/badge/Project_Page-Open_Demo",
         "https://img.shields.io/badge/Paper-arXiv_2605.27383",
         "https://img.shields.io/badge/Weights-Hugging_Face",
