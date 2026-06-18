@@ -159,7 +159,7 @@ This GitHub repository is intentionally lightweight: it hosts the project page, 
 
 ## Acknowledgements
 
-Confucius4-TTS builds on the following open-source projects:
+SE-Bridge-TTS thanks the following open-source projects:
 
 - [FunAudioLLM/CosyVoice](https://github.com/FunAudioLLM/CosyVoice), which provides the CosyVoice2 toolkit and inference stack used by the released checkpoints.
 - [facebook/mms-tts](https://huggingface.co/facebook/mms-tts), a multilingual open-source TTS baseline included in the project demos.

@@ -154,7 +154,7 @@ def test_readme_presents_project_homepage_methods_results_and_weights():
         "CosyVoice2 cross-lingual inference by default; optional zero-shot use with caution",
         "CosyVoice2 cross-lingual inference",
         "## Acknowledgements",
-        "Confucius4-TTS builds on the following open-source projects:",
+        "SE-Bridge-TTS thanks the following open-source projects:",
         "FunAudioLLM/CosyVoice",
         "facebook/mms-tts",
         "Higgs Audio v3",
